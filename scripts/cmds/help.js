@@ -3,7 +3,7 @@ const axios = require("axios");
 const path = require("path");
 const { getPrefix } = global.utils;
 const { commands, aliases } = global.GoatBot;
-const doNotDelete = "[ Remplace par le nom de ton bot ]";
+const doNotDelete = "[ Laydibug🐞🐞]";
 
 module.exports = {
         config: {
@@ -29,7 +29,7 @@ module.exports = {
 
         langs: {
                 en: {
-                        helpList: "╭─ Remplace par le nom de ton bot ─╮\n%1\n╰─ Total: %2 commandes ─╯\nUtilisez %3help <cmd> pour les détails de la commande",
+                        helpList: "╭─  Laydibug🐞🐞 ─╮\n%1\n╰─ Total: %2 commandes ─╯\nUtilisez %3help <cmd> pour les détails de la commande",
                         commandNotFound: "La commande \"%1\" n'existe pas",
                         getInfoCommand: "╭─ INFOS COMMANDE ─╮"
                                 + "\n│ Nom: %1"
@@ -138,7 +138,7 @@ module.exports = {
                         }
                 }
 
-                // ———————————————— LIST ALL COMMAND ——————————————— //
+                // 🐞🌹————————————————🌹🐞 LIST ALL COMMAND 🐞🌹——————————————— 🐞🌹//
                 if (!command && !args[0]) {
                         // Mapping des catégories existantes vers les nouvelles catégories
                         const categoryMapping = {
@@ -223,7 +223,7 @@ module.exports = {
                         // Ajouter les commandes des autres catégories non mappées
                         for (const [category, cmdList] of Object.entries(categorizedCommands)) {
                                 if (!orderedCategories.includes(category) && cmdList.length > 0) {
-                                        helpMessage += `\n━━━ ${category.toUpperCase()} ━━━\n`;
+                                        helpMessage += `\n🐞🌹━━━🐞🌹 ${category.toUpperCase()} ━━━\n`;
                                         const commands = cmdList.sort();
                                         const chunked = [];
                                         for (let i = 0; i < commands.length; i += 6) {
@@ -237,7 +237,7 @@ module.exports = {
                         }
 
                         // Ajouter la section support
-                        helpMessage += `\n━━━ 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 ━━━\n`;
+                        helpMessage += `\n🐞🌹━━━ 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 ━━━🐞🌹\n`;
                         helpMessage += `Rejoignez la boîte d'assistance\n`;
                         helpMessage += `${prefix}callad pour contacter les administrateurs\n`;
 
@@ -264,11 +264,11 @@ module.exports = {
 
                         return message.reply(formSendMessage);
                 }
-                // ———————————— COMMAND DOES NOT EXIST ———————————— //
+                // 🐞🌹———————————— COMMAND DOES NOT EXIST ———————————— 🐞🌹//
                 else if (!command && args[0]) {
                         return message.reply(getLang("commandNotFound", args[0]));
                 }
-                // ————————————————— INFO COMMAND ————————————————— //
+                // 🐞🌹————————————————— INFO COMMAND ————————————————— 🐞🌹//
                 else {
                         const formSendMessage = {};
                         const configCommand = command.config;
