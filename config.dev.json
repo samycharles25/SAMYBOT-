@@ -12,15 +12,15 @@
 	"antiInbox": false,
 	"language": "en",
 	"notesLanguage": "change to your language with ISO 639-1 code, available languages: vi (Vietnamese), en (English)",
-	"nickNameBot": "Laydibug🐞🌹🐞",
+	"nickNameBot": "✨🐾 Knuckles-chan 🐾✨",
 	"prefix": "•",
 	"adminOnly": {
 		"enable": false,
 		"ignoreCommand": []
 	},
 	"adminBot": [
-		"61578718657900",
-		"61577810470149"
+		"61574037590577",
+		"61579025213968"
 	],
 	"whiteListMode": {
 		"enable": false,
