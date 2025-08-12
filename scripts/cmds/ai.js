@@ -25,23 +25,23 @@ function toGothicStyle(text) {
         I: '𝖨', J: '𝖩', K: '𝖪', L: '𝖫', M: '𝖬', N: '𝖭', O: '𝖮', P: '𝖯',
         Q: '𝖰', R: '𝖱', S: '𝖲', T: '𝖳', U: '𝖴', V: '𝖵', W: '𝖶', X: '𝖷',
         Y: '𝖸', Z: '𝖹',
-        a: '𝗮', b: '𝗯', c: '𝗰', d: '𝗱', e: '𝗲', f: '𝗳', g: '𝗴', h: '𝗵',
-        i: '𝗶', j: '𝗷', k: '𝗸', l: '𝗹', m: '𝗺', n: '𝗻', o: '𝗼', p: '𝗽',
-        q: '𝗾', r: '𝗿', s: '𝘀', t: '𝘁', u: '𝘂', v: '𝘃', w: '𝘄', x: '𝘅',
-        y: '𝘆', z: '𝘇'
+        a: '𝖺', b: '𝖻', c: '𝖼', d: '𝖽', e: '𝖾', f: '𝖿', g: '𝗀', h: '𝗁',
+        i: '𝗂', j: '𝗃', k: '𝗄', l: '𝗅', m: '𝗆', n: '𝗇', o: '𝗈', p: '𝗉',
+        q: '𝗊', r: '𝗋', s: '𝗌', t: '𝗍', u: '𝗎', v: '𝗏', w: '𝗐', x: '𝗑',
+        y: '𝗒', z: '𝗓'
     };
     return text.split('').map(c => map[c] || c).join('');
 }
 
 function formatResponse(content) {
     const styled = toGothicStyle(content);
-    return `✨💫 『 ${styled} 』 💫✨\n🌟💬❤️`;
+    return `💮🍃 『 ${styled} 』 🧡🤍\n💚💬❤️`;
 }
 
 module.exports = {
     config: {
         name: 'ai',
-        author: 'Messie Osango',
+        author: '𝖲𝖺𝗆𝗒 𝖼𝗁𝖺𝗋𝗅𝖾𝗌',
         version: '2.0',
         role: 0,
         category: 'AI',
@@ -83,7 +83,7 @@ module.exports = {
             input = body.slice(body.split(' ')[0].length).trim();
         }
 
-        if (!input) return message.reply(formatResponse("✨💫 『 𝗦𝗮𝗹𝘂𝘁 ! 𝗖𝗼𝗺𝗺𝗲𝗻𝘁 𝗽𝘂𝗶𝘀-𝗷𝗲 𝘃𝗼𝘂𝘀 𝗮𝗶𝗱𝗲𝗿 𝗮𝘂𝗷𝗼𝘂𝗿𝗱'𝗵𝘂𝗶 ? 😊 』 💫✨\n🌟💬❤️"));
+        if (!input) return message.reply(formatResponse("✨💫 『𝖲𝖺𝗅𝗎𝗍 ! 𝖢𝗈𝗆𝗆𝖾𝗇𝗍  𝗏𝖺𝗌 𝗍𝗎 ? 😊 』 💫✨\n🌟💬❤️"));
 
         try {
             const res = await getAIResponse(input);
