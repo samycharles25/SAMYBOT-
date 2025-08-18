@@ -12,7 +12,7 @@
 	"antiInbox": false,
 	"language": "en",
 	"notesLanguage": "change to your language with ISO 639-1 code, available languages: vi (Vietnamese), en (English)",
-	"nickNameBot": "✨🐾 Knuckles-chan 🐾✨",
+	"nickNameBot": "ッ🦋𝖲𝖺𝗆𝗒💮👑『🇨🇮』",
 	"prefix": ".",
 	"adminOnly": {
 		"enable": false,
@@ -20,7 +20,7 @@
 	},
 	"adminBot": [
 		"61566160637367",
-		"61566160637367"
+		""
 	],
 	"whiteListMode": {
 		"enable": false,
