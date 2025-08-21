@@ -1,103 +1,74 @@
-const fs = require("fs-extra");
-const axios = require("axios");
-const path = require("path");
 const { getPrefix } = global.utils;
-const { commands, aliases } = global.GoatBot;
+const { commands } = global.GoatBot;
+const ytdl = require("ytdl-core"); // Assurez-vous que ytdl-core est installé
 
 module.exports = {
-	config: {
-		name: "help",
-		version: "1.17",
-		author: "samycharles",
-		countDown: 5,
-		role: 0,
-		shortDescription: {
-			en: "View command usage and list all commands directly",
-		},
-		longDescription: {
-			en: "View command usage and list all commands directly",
-		},
-		category: "cmd-list",
-		guide: {
-			en: "{pn} / help cmdName",
-		},
-		priority: 1,
-	},
+    config: {
+        name: "help",
+        version: "1.0",
+        author: "SAMY MD",
+        countDown: 5,
+        role: 0,
+        category: "informations",
+        shortDescription: { fr: "Affiche les infos de l'utilisateur et liste des commandes" },
+        guide: { fr: "{pn}" }
+    },
 
-	onStart: async function ({ message, args, event, threadsData, role }) {
-		const { threadID } = event;
-		const prefix = getPrefix(threadID);
+    onStart: async function ({ message, args, event, usersData, threadsData }) {
+        const { threadID, senderID } = event;
+        const prefix = getPrefix(threadID);
 
-		if (args.length === 0) {
-			const categories = {};
-			let msg = "";
+        // Récupérer infos utilisateur
+        const userData = usersData.get(senderID) || { xp: 0 };
+        const XP = userData.xp || 0;
 
-			msg += `╭───────────────🦔✨───────────────╮
- Bienvenue sur 🦔✨ ✘.𝑲𝑵𝑼𝑪𝑲𝑳𝑬𝑺 —シ✨🦔
-╰───────────────🦔✨───────────────╯\n`;
+        // Nombre total d'utilisateurs et de groupes
+        const totalUsers = usersData.size;
+        const totalGroups = threadsData.size;
 
-			for (const [name, value] of commands) {
-				if (value.config.role > 1 && role < value.config.role) continue;
-				const category = value.config.category || "Uncategorized";
-				if (!categories[category]) categories[category] = [];
-				categories[category].push(name);
-			}
+        // Créer le message help
+        let msg = `
+🌞 Bonjour @${senderID} 👋
 
-			for (const [category, cmds] of Object.entries(categories)) {
-				msg += `\n📁 ${category.toUpperCase()}:\n`;
-				const lines = cmds.sort().map(cmd => `➤ ${cmd}`).join("\n");
-				msg += lines + "\n";
-			}
-
-			const total = commands.size;
-			msg += `\n📌 Total commandes : ${total}`;
-			msg += `\n📘 Tape ${prefix}help [nom_commande] pour plus de détails.`;
-			msg += `\n📎 Facebook : https://www.facebook.com/SAMYCHARLES2010`;
-			msg += `\n❤️ Merci d'utiliser ✘.𝑲𝑵𝑼𝑪𝑲𝑳𝑬𝑺 —シ`;
-
-			// Image jointe à la réponse
-			const imgUrl = "https://tiny.one/yckvjykn";
-			try {
-				const res = await axios.get(imgUrl, { responseType: "stream" });
-				return message.reply({
-					body: msg,
-					attachment: res.data
-				});
-			} catch (e) {
-				return message.reply("✅ Liste des commandes :\n\n" + msg);
-			}
-		} else {
-			const commandName = args[0].toLowerCase();
-			const command = commands.get(commandName) || commands.get(aliases.get(commandName));
-			if (!command) return message.reply(`❌ Commande "${commandName}" introuvable.`);
-
-			const c = command.config;
-			const roleText = convertRole(c.role);
-			const usage = c.guide?.en?.replace(/{p}/g, prefix).replace(/{n}/g, c.name) || "Pas de guide dispo.";
-			const description = c.longDescription?.en || "Pas de description.";
-			const author = c.author || "Inconnu";
-
-			const details = `
-🔹 Nom : ${c.name}
-🔹 Alias : ${c.aliases?.join(", ") || "Aucun"}
-🔹 Catégorie : ${c.category || "Aucune"}
-🔹 Auteur : ${author}
-🔹 Rôle requis : ${roleText}
-🔹 Temps entre usages : ${c.countDown || 1}s
-🔹 Description : ${description}
-🔹 Utilisation : ${usage}
+╭─ 「 Informations 」
+│ 👤 Nom: SAMY MD
+│ 🎖 Niveau: 0 | XP: ${XP}/10000
+│ 🔓 Limite: 10
+│ 🧭 Mode: Public 🌐
+│ ⏱️ Temps actif: 00:33:10
+│ 🌍 Utilisateurs enregistrés: ${totalUsers} | Groupes: ${totalGroups}
+╰─❒
 `;
 
-			await message.reply(details);
-		}
-	}
-};
+        // Lister automatiquement les commandes par catégorie
+        const categories = {};
+        for (const [name, cmd] of commands) {
+            if (cmd.config.role > 1) continue; // ignorer les commandes admin si rôle pas suffisant
+            const cat = cmd.config.category || "Divers";
+            if (!categories[cat]) categories[cat] = [];
+            categories[cat].push(name);
+        }
 
-function convertRole(role) {
-	switch (role) {
-		case 0: return "0 (Tous les utilisateurs)";
-		case 1: return "1 (Admins du groupe)";
-		case 2: return "2 (Admins du bot)";
-		default: return `${role}`;
-	}
-            }
+        for (const [cat, cmds] of Object.entries(categories)) {
+            msg += `\n╭─ 「 ${cat.toUpperCase()} 」\n`;
+            msg += cmds.sort().map(c => `│ ◦ ${prefix}${c}`).join("\n");
+            msg += `\n╰─❒`;
+        }
+
+        // Envoyer le help
+        await message.reply(msg);
+
+        // Envoyer ensuite la vidéo YouTube en audio
+        const youtubeUrl = "https://youtu.be/Sfv6OmOB1W4?si=43lOiniBV4sjOs6x";
+        try {
+            const stream = ytdl(youtubeUrl, { filter: "audioonly" });
+            await message.reply({
+                body: "🎵 Voici la musique que tu as demandée :",
+                attachment: stream
+            });
+        } catch (e) {
+            console.log("Erreur lors de la lecture de la vidéo :", e);
+            await message.reply("❌ Impossible de lire la vidéo YouTube en audio.");
+        }
+    }
+};
